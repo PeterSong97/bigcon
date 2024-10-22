@@ -1,4 +1,4 @@
-%%writefile app.py
+import dotenv import load_dotenv
 import streamlit as st
 import os
 import numpy as np
@@ -13,9 +13,11 @@ from datetime import time
 import base64
 from datetime import datetime
 
-genai_key = MY_GENAI_KEY
-NAVER_CLIENT_ID = MY_ID
-NAVER_CLIENT_SECRET = MY_NUMBER
+load_dotenv
+
+genai_key = os.gentenv("GENAI_KEY")
+NAVER_CLIENT_ID = os.getenv("NAVER_CLIENT_ID")
+NAVER_CLIENT_SECRET = os.getenv("NAVER_CLIENT_SECRET")
 GEOCODING_API_URL = 'https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode'
 module_path = '/data/'
 
