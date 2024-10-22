@@ -34,7 +34,6 @@ embedding_model = AutoModel.from_pretrained(model_name).to(device)
 df = pd.read_csv('data/jeju_data_final.csv')
 embeddings = np.load(os.path.join('data/embeddings_array_file.npy'))
 index_path = 'data/faiss_index.index'
-index = load_faiss_index(index_path)
 image_path = 'https://github.com/PeterSong97/bigcon/raw/main/data/%ED%83%80%EC%9D%B4%ED%8B%80%EC%9D%B4%EB%AF%B8%EC%A7%80.png'
 
 if os.path.exists(index_path):
@@ -178,6 +177,7 @@ def load_faiss_index(index_path):
         return index
     else:
         raise FileNotFoundError(f"{index_path} 파일이 존재하지 않습니다.")
+index = load_faiss_index(index_path)
 
 # 텍스트 임베딩 함수
 def embed_text(text):
