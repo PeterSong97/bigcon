@@ -34,9 +34,17 @@ embedding_model = AutoModel.from_pretrained(model_name).to(device)
 df = pd.read_csv('data/jeju_data_final.csv')
 embeddings = np.load(os.path.join('data/embeddings_array_file.npy'))
 index_path = 'data/faiss_index.index'
+index = load_faiss_index(index_path)
 image_path = 'https://github.com/PeterSong97/bigcon/raw/main/data/%ED%83%80%EC%9D%B4%ED%8B%80%EC%9D%B4%EB%AF%B8%EC%A7%80.png'
 
-index = load_faiss_index(index_path)
+if os.path.exists(index_path):
+    print("FAISS index exists.")
+else:
+    print(f"FAISS index not found at {index_path}")
+st.write(f"FAISS index path: {index_path}")
+st.write(f"Index exists: {os.path.exists(index_path)}")
+
+
 
 # 두 좌표 사이의 거리를 계산하는 Haversine 함수
 def haversine(lat1, lon1, lat2, lon2):
