@@ -39,12 +39,12 @@ embeddings = np.load(os.path.join('data/embeddings_array_file.npy'))
 index_path = 'data/faiss_index.index'
 image_path = 'https://github.com/PeterSong97/bigcon/raw/main/data/%ED%83%80%EC%9D%B4%ED%8B%80%EC%9D%B4%EB%AF%B8%EC%A7%80.png'
 
-if os.path.exists(index_path):
+'''if os.path.exists(index_path):
     print("FAISS index exists.")
 else:
     print(f"FAISS index not found at {index_path}")
 st.write(f"FAISS index path: {index_path}")
-st.write(f"Index exists: {os.path.exists(index_path)}")
+st.write(f"Index exists: {os.path.exists(index_path)}")'''
 
 
 
@@ -227,7 +227,7 @@ def filter_restaurants(df, visit_time, visit_day, user_lat=None, user_lon=None, 
 
 # ====================================================== 필요함수 선언완료 =============================================================
 
-def generate_response_with_faiss(question, df, embeddings, model, embed_text, visit_time, visit_day, local_choice, user_lat=None, user_lon=None, max_distance_km=5, index_path=None, max_count=10, k=3, print_prompt=True):
+def generate_response_with_faiss(question, df, embeddings, model, embed_text, visit_time, visit_day, local_choice, user_lat=None, user_lon=None, max_distance_km=5, max_count=10, k=3, print_prompt=True):
     # 1. FAISS 인덱스를 파일에서 로드
     index = load_faiss_index(index_path)
 
