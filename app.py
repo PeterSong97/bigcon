@@ -13,6 +13,9 @@ from datetime import time
 # import base64
 from datetime import datetime
 
+# 가장 먼저 set_page_config 호출
+st.set_page_config(page_title="🥙🌮🥯제주 맛집 찾아 삼만리🥯🌮🥙")
+
 load_dotenv()
 
 genai_key = os.getenv("GENAI_KEY")
@@ -81,7 +84,6 @@ def get_lat_lng_from_address(address):
 #=============================================필요한 모듈호출, 함수선언 완료====================================================
 
 # Streamlit 앱 설정
-st.set_page_config(page_title="🥙🌮🥯제주 맛집 찾아 삼만리🥯🌮🥙")
 st.markdown(
     f"""
     <style>
