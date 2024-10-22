@@ -19,7 +19,7 @@ genai_key = os.getenv("GENAI_KEY")
 NAVER_CLIENT_ID = os.getenv("NAVER_CLIENT_ID")
 NAVER_CLIENT_SECRET = os.getenv("NAVER_CLIENT_SECRET")
 GEOCODING_API_URL = 'https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode'
-module_path = '/data/'
+module_path = 'data/'
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 # gemini-1.5-flash 로드
@@ -31,9 +31,9 @@ model_name = "jhgan/ko-sroberta-multitask"
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 embedding_model = AutoModel.from_pretrained(model_name).to(device)
 
-df = pd.read_csv('/data/jeju_data_final.csv')
-embeddings = np.load(os.path.join('/data/embeddings_array_file.npy'))
-image_path = '/data/타이틀이미지.png'
+df = pd.read_csv('data/jeju_data_final.csv')
+embeddings = np.load(os.path.join('data/embeddings_array_file.npy'))
+image_path = 'data/타이틀이미지.png'
 
 # 두 좌표 사이의 거리를 계산하는 Haversine 함수
 def haversine(lat1, lon1, lat2, lon2):
