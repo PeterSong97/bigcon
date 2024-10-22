@@ -316,7 +316,7 @@ if prompt:
         with st.spinner("찾아보고 있어요!"):
             response = generate_response_with_faiss(
                 question=prompt, df=df, embeddings=embeddings, model=model, embed_text=embed_text, visit_time=visit_time, visit_day=visit_day,
-                local_choice=local_choice, user_lat=latitude, user_lon=longitude, max_distance_km=5, index_path=index_path')
+                local_choice=local_choice, user_lat=latitude, user_lon=longitude, max_distance_km=5, index_path=index_path)
 
 
 # Clear chat history 버튼
