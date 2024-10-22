@@ -29,7 +29,7 @@ model_name = "jhgan/ko-sroberta-multitask"
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 embedding_model = AutoModel.from_pretrained(model_name).to(device)
 
-df = pd.read_csv('/content/drive/MyDrive/17. 빅콘테스트/data/jeju_data_final.csv')
+df = pd.read_csv('/data/jeju_data_final.csv')
 embeddings = np.load(os.path.join('/content/drive/MyDrive/Test/embeddings_array_file.npy'))
 image_path = '/content/drive/MyDrive/17. 빅콘테스트/data/타이틀이미지.png'
 
