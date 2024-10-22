@@ -15,7 +15,7 @@ from datetime import datetime
 
 load_dotenv()
 
-genai_key = os.gentenv("GENAI_KEY")
+genai_key = os.getenv("GENAI_KEY")
 NAVER_CLIENT_ID = os.getenv("NAVER_CLIENT_ID")
 NAVER_CLIENT_SECRET = os.getenv("NAVER_CLIENT_SECRET")
 GEOCODING_API_URL = 'https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode'
