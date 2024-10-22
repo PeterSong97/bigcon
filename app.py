@@ -227,7 +227,7 @@ def filter_restaurants(df, visit_time, visit_day, user_lat=None, user_lon=None, 
 
 # ====================================================== 필요함수 선언완료 =============================================================
 
-def generate_response_with_faiss(question, df, embeddings, model, embed_text, visit_time, visit_day, local_choice, user_lat=None, user_lon=None, max_distance_km=5, max_count=10, k=3, print_prompt=True):
+def generate_response_with_faiss(question, df, embeddings, model, embed_text, visit_time, visit_day, local_choice, user_lat=None, user_lon=None, max_distance_km=5, index_path=None, max_count=10, k=3, print_prompt=True):
     # 1. FAISS 인덱스를 파일에서 로드
     index = load_faiss_index(index_path)
 
@@ -315,14 +315,8 @@ if prompt:
     with st.chat_message("assistant"):
         with st.spinner("찾아보고 있어요!"):
             response = generate_response_with_faiss(
-                prompt, df, embeddings, model, embed_text,
-                visit_time=visit_time, visit_day=visit_day,
-                local_choice=local_choice, user_lat=latitude, user_lon=longitude,
-                max_distance_km=5, index_path='/content/drive/MyDrive/Test/faiss_index.index'
-            )
-            # 어시스턴트 응답 표시
-            st.session_state.messages.append({"role": "assistant", "content": response})
-            st.write(response)
+                question=prompt, df=df, embeddings=embeddings, model=model, embed_text=embed_text, visit_time=visit_time, visit_day=visit_day,
+                local_choice=local_choice, user_lat=latitude, user_lon=longitude, max_distance_km=5, index_path=index_path')
 
 
 # Clear chat history 버튼
