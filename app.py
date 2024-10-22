@@ -36,6 +36,8 @@ embeddings = np.load(os.path.join('data/embeddings_array_file.npy'))
 index_path = 'data/faiss_index.index'
 image_path = 'https://github.com/PeterSong97/bigcon/raw/main/data/%ED%83%80%EC%9D%B4%ED%8B%80%EC%9D%B4%EB%AF%B8%EC%A7%80.png'
 
+index = load_faiss_index(index_path)
+
 # 두 좌표 사이의 거리를 계산하는 Haversine 함수
 def haversine(lat1, lon1, lat2, lon2):
     R = 6371  # 지구 반지름 (km 단위)
