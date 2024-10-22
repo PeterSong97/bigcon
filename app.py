@@ -32,7 +32,7 @@ tokenizer = AutoTokenizer.from_pretrained(model_name)
 embedding_model = AutoModel.from_pretrained(model_name).to(device)
 
 df = pd.read_csv('data/jeju_data_final.csv')
-embeddings = np.load(os.path.join('data/embeddings_array_file.npy'))
+embeddings = np.load(os.path.join('data/embeddings_array_file.npy'), allow_pickle=True)
 image_path = 'data/타이틀이미지.png'
 
 # 두 좌표 사이의 거리를 계산하는 Haversine 함수
