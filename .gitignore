@@ -1,6 +1,7 @@
 .streamlit/secrets.toml
 
 # Byte-compiled / optimized / DLL files
+.env
 __pycache__/
 *.py[cod]
 *$py.class
