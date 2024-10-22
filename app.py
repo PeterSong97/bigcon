@@ -10,7 +10,7 @@ import google.generativeai as genai
 import faiss
 import math
 from datetime import time
-import base64
+# import base64
 from datetime import datetime
 
 load_dotenv()
@@ -69,15 +69,6 @@ def get_lat_lng_from_address(address):
     return None, None
 
 #=============================================필요한 모듈호출, 함수선언 완료====================================================
-
-# 이미지를 base64로 인코딩
-def get_base64_image(image_path):
-    with open(image_path, "rb") as img_file:
-        b64_string = base64.b64encode(img_file.read()).decode('utf-8')
-    return b64_string
-
-# 인코딩된 이미지를 HTML로 표시
-image_base64 = get_base64_image(image_path)
 
 # Streamlit 앱 설정
 st.set_page_config(page_title="🥙🌮🥯제주 맛집 찾아 삼만리🥯🌮🥙")
