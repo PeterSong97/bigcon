@@ -1,4 +1,4 @@
-import dotenv import load_dotenv
+from dotenv import load_dotenv
 import streamlit as st
 import os
 import numpy as np
@@ -13,7 +13,7 @@ from datetime import time
 import base64
 from datetime import datetime
 
-load_dotenv
+load_dotenv()
 
 genai_key = os.gentenv("GENAI_KEY")
 NAVER_CLIENT_ID = os.getenv("NAVER_CLIENT_ID")
