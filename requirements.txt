@@ -1,2 +1,9 @@
 streamlit
 openai
+pandas
+numpy
+transformers
+torch
+faiss-cpu
+tqdm
+google-generativeai
