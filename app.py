@@ -251,9 +251,6 @@ def generate_response_with_faiss(question, df, embeddings, model, embed_text, vi
             return "검색된 결과가 없습니다."
     except Exception as e:
         st.write(f"검색 중 오류가 발생했습니다: {str(e)}")
-    
-    # 나머지 코드...
-
 
     # 5. 필터링을 진행 (시간, 요일, 거리, 현지인/관광객 옵션)
     filtered_df = df.iloc[valid_indices].copy().reset_index(drop=True)
