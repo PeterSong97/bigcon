@@ -170,8 +170,6 @@ def load_faiss_index(index_path):
     if os.path.exists(index_path):
         index = faiss.read_index(index_path)
         return index
-    faiss_index_shape = index.d
-    st.write(f"FAISS 인덱스 차원: {faiss_index_shape}")
     else:
         raise FileNotFoundError(f"{index_path} 파일이 존재하지 않습니다.")
 index = load_faiss_index(index_path)
@@ -181,8 +179,6 @@ def embed_text(text):
     inputs = tokenizer(text, return_tensors='pt', padding=True, truncation=True).to(device)
     with torch.no_grad():
         embeddings = embedding_model(**inputs).last_hidden_state.mean(dim=1)
-    embedding_shape = embeddings.shape
-    st.write(f"임베딩 차원: {embedding_shape}")
     return embeddings.squeeze().cpu().numpy()
 
 # 임베딩 로드
@@ -231,6 +227,8 @@ def generate_response_with_faiss(question, df, embeddings, model, embed_text, vi
     # 2. 검색 쿼리 임베딩 생성
     query_embedding = embed_text(question).reshape(1, -1)
 
+    st.write(f"쿼리 임베딩 차원: {query_embedding.shape}")
+    st.write(f"FAISS 인덱스 차원: {index.d}")
 
     # 3. FAISS 인덱스에서 검색 수행 (3배수로 검색)
     distances, indices = index.search(query_embedding, k * 3)
