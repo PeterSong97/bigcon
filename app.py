@@ -228,8 +228,8 @@ def generate_response_with_faiss(question, df, embeddings, model, embed_text, vi
     try:
         # AI 모델을 통한 응답 생성
         response = model.generate_content(question)
-        st.write(f"Generative AI Response Object: {response}")  # AI 응답 객체를 출력
-
+        # st.write(f"Generative AI Response Object (Full): {vars(response)}")  # AI 응답 객체를 출력
+        
         # 응답이 있는지 확인
         if hasattr(response, 'candidates'):
             candidate = response.candidates[0]
