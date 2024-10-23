@@ -64,9 +64,17 @@ def get_lat_lng_from_address(address):
         'query': address
     }
 
+    st.write(f"API 요청 주소: {GEOCODING_API_URL}")
+    st.write(f"API 요청 헤더: {headers}")
+    st.write(f"API 요청 파라미터: {params}")
+    
     response = requests.get(GEOCODING_API_URL, headers=headers, params=params)
+    st.write(f"API 응답 코드: {response.status_code}")
+    
     if response.status_code == 200:
         data = response.json()
+        st.write(f"API 응답 데이터: {data}")
+        
         results = data.get('addresses')
         if results:
             location = results[0]
