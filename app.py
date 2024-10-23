@@ -227,8 +227,13 @@ def generate_response_with_faiss(question, df, embeddings, model, embed_text, vi
     # 2. 검색 쿼리 임베딩 생성
     query_embedding = embed_text(question).reshape(1, -1)
 
-    st.write(f"쿼리 임베딩 차원: {query_embedding.shape}")
-    st.write(f"FAISS 인덱스 차원: {index.d}")
+    print(f"FAISS 인덱스 차원: {index.d}")
+    print(f"임베딩 벡터 차원: {query_embedding.shape[1]}")
+
+    # 검색 수행
+    assert query_embedding.shape[1] == index.d, f"임베딩 벡터의 차원({query_embedding.shape[1]})과 FAISS 인덱스의 차원({index.d})이 일치하지 않습니다."
+    distances, indices = index.search(query_embedding, k * 3)
+    
 
     # 3. FAISS 인덱스에서 검색 수행 (3배수로 검색)
     distances, indices = index.search(query_embedding, k * 3)
