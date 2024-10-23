@@ -12,7 +12,7 @@ import math
 from datetime import time
 # import base64
 from datetime import datetime
-import aiohttp
+# import aiohttp
 import asyncio
 
 # 가장 먼저 set_page_config 호출
@@ -58,7 +58,7 @@ def filter_restaurants_by_distance(df, user_lat, user_lon, max_distance_km=8):
     return df_filtered
 
 # 주소를 위도/경도로 변환하는 함수 (네이버 API 사용)
-async def get_lat_lng_from_address(address):
+def get_lat_lng_from_address(address):
     headers = {
         'X-NCP-APIGW-API-KEY-ID': NAVER_CLIENT_ID,
         'X-NCP-APIGW-API-KEY': NAVER_CLIENT_SECRET
@@ -66,15 +66,14 @@ async def get_lat_lng_from_address(address):
     params = {
         'query': address
     }
-    
-    async with aiohttp.ClientSession() as session:
-        async with session.get(GEOCODING_API_URL, headers=headers, params=params) as response:
-            if response.status == 200:
-                data = await response.json()
-                results = data.get('addresses')
-                if results:
-                    location = results[0]
-                    return float(location['y']), float(location['x'])  # 위도(y), 경도(x)
+
+    response = requests.get(GEOCODING_API_URL, headers=headers, params=params)
+    if response.status_code == 200:
+        data = response.json()
+        results = data.get('addresses')
+        if results:
+            location = results[0]
+            return float(location['y']), float(location['x'])  # 위도(y), 경도(x)
     
     return None, None
 
@@ -117,7 +116,7 @@ if use_current_location == 'Yes':
     user_address = st.sidebar.text_input("주소를 입력하세요")
 
     if user_address:
-        latitude, longitude = asyncio.run(get_lat_lng_from_address(user_address))
+        latitude, longitude = get_lat_lng_from_address(user_address)  # 동기 방식으로 변경
         if latitude and longitude:
             st.sidebar.success(f"위도: {latitude}, 경도: {longitude}")
 
@@ -137,7 +136,7 @@ if use_current_location == 'Yes':
         df_filtered = df.copy()  # 전체 데이터를 사용
 else:
     latitude, longitude = None, None
-    df_filtered = df.copy()  # 전체 데이터를 사용
+    df_filtered = df.copy()
 
 # 사이드바에서 '현지인 맛집' 또는 '관광객 맛집' 여부 선택
 st.sidebar.header("현지인 맛집 또는 관광객 맛집 추천")
