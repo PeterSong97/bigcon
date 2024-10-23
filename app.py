@@ -10,7 +10,6 @@ import google.generativeai as genai
 import faiss
 import math
 from datetime import time
-# import base64
 from datetime import datetime
 
 # 가장 먼저 set_page_config 호출
