@@ -231,8 +231,8 @@ def generate_response_with_faiss(question, df, embeddings, model, embed_text, vi
     # 2. 검색 쿼리 임베딩 생성
     query_embedding = embed_text(question).reshape(1, -1)
 
-    # 3. FAISS 인덱스에서 검색 수행 (2배수로 검색) (3->2 수정)
-    distances, indices = index.search(query_embedding, k * 2)
+    # 3. FAISS 인덱스에서 검색 수행 (3배수로 검색)
+    distances, indices = index.search(query_embedding, k * 3)
 
     # 4. 유효한 인덱스만 필터링 (데이터프레임 범위를 넘는 인덱스를 제외)
     valid_indices = [i for i in indices[0] if i < len(df)]
