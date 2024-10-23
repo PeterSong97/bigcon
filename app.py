@@ -227,30 +227,17 @@ def filter_restaurants(df, visit_time, visit_day, user_lat=None, user_lon=None, 
 def generate_response_with_faiss(question, df, embeddings, model, embed_text, visit_time, visit_day, local_choice, user_lat=None, user_lon=None, max_distance_km=5, index_path=None, max_count=10, k=3, print_prompt=True):
     # 1. FAISS 인덱스를 파일에서 로드
     index = load_faiss_index(index_path)
-    
+
     # 2. 검색 쿼리 임베딩 생성
     query_embedding = embed_text(question).reshape(1, -1)
-    
-    # 3. FAISS 인덱스와 임베딩 벡터의 차원 확인
-    faiss_index_dimension = index.d
-    embedding_dimension = query_embedding.shape[0]
-    st.write(f"FAISS 인덱스 차원: {faiss_index_dimension}")
-    st.write(f"임베딩 벡터 차원: {embedding_dimension}")
 
-    # 차원이 일치하지 않으면 오류 메시지 출력
-    assert embedding_dimension == faiss_index_dimension, f"임베딩 벡터의 차원({embedding_dimension})과 FAISS 인덱스의 차원({faiss_index_dimension})이 일치하지 않습니다."
-    
-    # 4. 검색 수행
-    try:
-        distances, indices = index.search(query_embedding.reshape(1, -1), k * 3)
-        st.write(f"검색 결과: {distances}, {indices}")
-        
-        # 유효한 인덱스만 필터링 (데이터프레임 범위를 넘는 인덱스를 제외)
-        valid_indices = [i for i in indices[0] if i < len(df)]
-        if not valid_indices:
-            return "검색된 결과가 없습니다."
-    except Exception as e:
-        st.write(f"검색 중 오류가 발생했습니다: {str(e)}")
+    # 3. FAISS 인덱스에서 검색 수행 (3배수로 검색)
+    distances, indices = index.search(query_embedding, k * 3)
+
+    # 4. 유효한 인덱스만 필터링 (데이터프레임 범위를 넘는 인덱스를 제외)
+    valid_indices = [i for i in indices[0] if i < len(df)]
+    if not valid_indices:
+        return "검색된 결과가 없습니다."
 
 
     # 5. 필터링을 진행 (시간, 요일, 거리, 현지인/관광객 옵션)
