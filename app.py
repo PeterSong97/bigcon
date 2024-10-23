@@ -12,6 +12,8 @@ import math
 from datetime import time
 # import base64
 from datetime import datetime
+import aiohttp
+import asyncio
 
 # 가장 먼저 set_page_config 호출
 st.set_page_config(page_title="🥙🌮🥯제주 맛집 찾아 삼만리🥯🌮🥙")
@@ -56,7 +58,7 @@ def filter_restaurants_by_distance(df, user_lat, user_lon, max_distance_km=8):
     return df_filtered
 
 # 주소를 위도/경도로 변환하는 함수 (네이버 API 사용)
-def get_lat_lng_from_address(address):
+async def get_lat_lng_from_address(address):
     headers = {
         'X-NCP-APIGW-API-KEY-ID': NAVER_CLIENT_ID,
         'X-NCP-APIGW-API-KEY': NAVER_CLIENT_SECRET
@@ -64,12 +66,16 @@ def get_lat_lng_from_address(address):
     params = {
         'query': address
     }
-    response = requests.get(GEOCODING_API_URL, headers=headers, params=params)
-    if response.status_code == 200:
-        results = response.json().get('addresses')
-        if results:
-            location = results[0]
-            return float(location['y']), float(location['x'])  # 위도(y), 경도(x)
+    
+    async with aiohttp.ClientSession() as session:
+        async with session.get(GEOCODING_API_URL, headers=headers, params=params) as response:
+            if response.status == 200:
+                data = await response.json()
+                results = data.get('addresses')
+                if results:
+                    location = results[0]
+                    return float(location['y']), float(location['x'])  # 위도(y), 경도(x)
+    
     return None, None
 
 #=============================================필요한 모듈호출, 함수선언 완료====================================================
@@ -111,7 +117,7 @@ if use_current_location == 'Yes':
     user_address = st.sidebar.text_input("주소를 입력하세요")
 
     if user_address:
-        latitude, longitude = get_lat_lng_from_address(user_address)
+        latitude, longitude = asyncio.run(get_lat_lng_from_address(user_address))
         if latitude and longitude:
             st.sidebar.success(f"위도: {latitude}, 경도: {longitude}")
 
