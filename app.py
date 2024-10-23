@@ -179,11 +179,15 @@ def load_faiss_index(index_path):
 index = load_faiss_index(index_path)
 
 # 텍스트 임베딩 함수
-def embed_text(text):
-    inputs = tokenizer(text, return_tensors='pt', padding=True, truncation=True).to(device)
-    with torch.no_grad():
-        embeddings = embedding_model(**inputs).last_hidden_state.mean(dim=1)
-    return embeddings.squeeze().cpu().numpy()
+def embed_texts(texts, batch_size=8):
+    all_embeddings = []
+    for i in range(0, len(texts), batch_size):
+        batch_texts = texts[i:i+batch_size]
+        inputs = tokenizer(batch_texts, return_tensors='pt', padding=True, truncation=True).to(device)
+        with torch.no_grad():
+            embeddings = embedding_model(**inputs).last_hidden_state.mean(dim=1)
+        all_embeddings.append(embeddings.cpu().numpy())
+    return np.vstack(all_embeddings)
 
 # 임베딩 로드
 embeddings = np.load(os.path.join(module_path, 'embeddings_array_file.npy'))
