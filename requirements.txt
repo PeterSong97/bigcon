@@ -1,10 +1,10 @@
 streamlit
 openai
 pandas
-numpy == 1.23.0
+numpy
 transformers
-torch == 2.0.1
-faiss-cpu == 1.7.2
+torch
+faiss-cpu
 tqdm
 google-generativeai
 python-dotenv
