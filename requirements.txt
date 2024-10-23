@@ -8,3 +8,4 @@ faiss-cpu
 tqdm
 google-generativeai
 python-dotenv
+aiohttp
