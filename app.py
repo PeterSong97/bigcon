@@ -183,10 +183,6 @@ def embed_text(text):
 # 임베딩 로드
 embeddings = np.load(os.path.join(module_path, 'embeddings_array_file.npy'))
 
-# 차원 확인 및 출력
-st.write(f"FAISS 인덱스 차원: {index.d}")
-st.write(f"임베딩 벡터 차원: {query_embedding.shape[0]}")
-
 def filter_by_visit_time(df_filtered, visit_time):
     if isinstance(visit_time, str):
         visit_time = datetime.strptime(visit_time, '%H:%M')
@@ -237,7 +233,6 @@ def generate_response_with_faiss(question, df, embeddings, model, embed_text, vi
     valid_indices = [i for i in indices[0] if i < len(df)]
     if not valid_indices:
         return "검색된 결과가 없습니다."
-
 
     # 5. 필터링을 진행 (시간, 요일, 거리, 현지인/관광객 옵션)
     filtered_df = df.iloc[valid_indices].copy().reset_index(drop=True)
@@ -312,8 +307,14 @@ if prompt:
     with st.chat_message("assistant"):
         with st.spinner("찾아보고 있어요!"):
             response = generate_response_with_faiss(
-                question=prompt, df=df, embeddings=embeddings, model=model, embed_text=embed_text, visit_time=visit_time, visit_day=visit_day,
-                local_choice=local_choice, user_lat=latitude, user_lon=longitude, max_distance_km=5, index_path=index_path)
+                prompt, df, embeddings, model, embed_text,
+                visit_time=visit_time, visit_day=visit_day,
+                local_choice=local_choice, user_lat=latitude, user_lon=longitude,
+                max_distance_km=5, index_path='/content/drive/MyDrive/Test/faiss_index.index'
+            )
+            # 어시스턴트 응답 표시
+            st.session_state.messages.append({"role": "assistant", "content": response})
+            st.write(response)
 
 
 # Clear chat history 버튼
