@@ -179,7 +179,7 @@ def load_faiss_index(index_path):
 index = load_faiss_index(index_path)
 
 # 텍스트 임베딩 함수
-def embed_texts(texts, batch_size=8):
+def embed_text(texts, batch_size=8):
     all_embeddings = []
     for i in range(0, len(texts), batch_size):
         batch_texts = texts[i:i+batch_size]
