@@ -184,6 +184,10 @@ def embed_text(text):
 # 임베딩 로드
 embeddings = np.load(os.path.join(module_path, 'embeddings_array_file.npy'))
 
+# 차원 확인 및 출력
+st.write(f"FAISS 인덱스 차원: {index.d}")
+st.write(f"임베딩 벡터 차원: {query_embedding.shape[0]}")
+
 def filter_by_visit_time(df_filtered, visit_time):
     if isinstance(visit_time, str):
         visit_time = datetime.strptime(visit_time, '%H:%M')
