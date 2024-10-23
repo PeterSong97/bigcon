@@ -242,7 +242,7 @@ def generate_response_with_faiss(question, df, embeddings, model, embed_text, vi
     
     # 4. 검색 수행
     try:
-        distances, indices = index.search(query_embedding, k * 3)
+        distances, indices = index.search(query_embedding.reshape(1, -1), k * 3)
         st.write(f"검색 결과: {distances}, {indices}")
         
         # 유효한 인덱스만 필터링 (데이터프레임 범위를 넘는 인덱스를 제외)
@@ -251,6 +251,7 @@ def generate_response_with_faiss(question, df, embeddings, model, embed_text, vi
             return "검색된 결과가 없습니다."
     except Exception as e:
         st.write(f"검색 중 오류가 발생했습니다: {str(e)}")
+
 
     # 5. 필터링을 진행 (시간, 요일, 거리, 현지인/관광객 옵션)
     filtered_df = df.iloc[valid_indices].copy().reset_index(drop=True)
