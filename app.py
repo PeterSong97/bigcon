@@ -114,9 +114,7 @@ if use_current_location == 'Yes':
     user_address = st.sidebar.text_input("주소를 입력하세요")
 
     if user_address:
-        st.write("주소 변환을 시도합니다: ", user_address)  # 변수명을 user_address로 수정
         latitude, longitude = get_lat_lng_from_address(user_address)
-        st.write(f"응답 결과: 위도 - {latitude}, 경도 - {longitude}")
         if latitude and longitude:
             st.sidebar.success(f"위도: {latitude}, 경도: {longitude}")
 
