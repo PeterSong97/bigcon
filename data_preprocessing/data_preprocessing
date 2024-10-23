@@ -134,11 +134,29 @@ def generate_text(row):
 df['text'] = df.apply(generate_text, axis=1)
 df.head()
 
-'''    # 영업요일 정보를 통해 휴무일 확인
-    if '휴무일' in row['영업요일']:
-        text += f"휴무일은 {row['영업요일'].replace('영업', '').strip()}입니다. "
+# 요일 리스트
+weekdays = ['월요일', '화요일', '수요일', '목요일', '금요일', '토요일', '일요일']
+
+# 영업요일이 없는 경우 휴무일을 텍스트 컬럼에 추가하는 함수
+def add_closing_days(row):
+    # 영업요일이 있는지 확인
+    operating_days = row['영업요일']
+    
+    # 휴무일 계산 (영업하지 않는 요일)
+    closed_days = [day for day in weekdays if day not in operating_days]
+    
+    # 휴무일이 있는지 없는지에 따라 텍스트 추가
+    if closed_days:
+        closing_text = f"휴무일은 {', '.join(closed_days)}입니다."
     else:
-        text += "휴무일이 없습니다. "'''
+        closing_text = "휴무일은 없습니다."
+    
+    # 원래 text 컬럼에 휴무일 텍스트 추가
+    row['text'] += " " + closing_text
+    return row
+
+# 데이터프레임에 적용
+df = df.apply(add_closing_days, axis=1)
 
 df.rename(columns={'식당이름': '상호명'}, inplace=True)
 df.head()
