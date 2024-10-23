@@ -8,5 +8,5 @@ faiss-cpu
 tqdm
 google-generativeai
 python-dotenv
-aiohttp
+aiohttp == 3.8.1
 
