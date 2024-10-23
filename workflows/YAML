@@ -1,4 +1,4 @@
-name: Install Dependencies and Run Tests
+name: No Cache Install
 
 on:
   push:
@@ -16,24 +16,13 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.10'  # Python 버전을 안정적인 3.10으로 설정
+        python-version: '3.10'
 
-    - name: Cache dependencies
-      uses: actions/cache@v2
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-
-
-    - name: Install dependencies
+    - name: Install dependencies without cache
       run: |
-        pip install -r requirements.txt
+        pip install --no-cache-dir -r requirements.txt
 
     - name: Run application (optional)
       run: |
-        streamlit run app.py  # 실제 실행 명령어, 필요에 따라 조정 가능
+        streamlit run app.py
 
-    - name: Run tests (optional)
-      run: |
-        pytest  # 테스트 프레임워크로 pytest 사용 가능
