@@ -228,7 +228,12 @@ def generate_response_with_faiss(question, df, embeddings, model, embed_text, vi
     try:
         # AI 모델을 통한 응답 생성
         response = model.generate_content(question)
-        # st.write(f"Generative AI Response Object (Full): {vars(response)}")  # AI 응답 객체를 출력
+        
+        # API 응답 코드를 확인 (필요한 경우 API 응답 객체에 따라 다를 수 있습니다)
+        if hasattr(response, 'status_code'):
+            st.write(f"API 응답 코드: {response.status_code}")
+        else:
+            st.write("API 응답 코드가 없습니다. 응답이 올바르지 않음")
         
         # 응답이 있는지 확인
         if hasattr(response, 'candidates'):
@@ -243,11 +248,9 @@ def generate_response_with_faiss(question, df, embeddings, model, embed_text, vi
         else:
             return "응답을 생성하지 못했습니다."
     
-    # API 호출 중 에러 발생 시 로그 출력
     except Exception as e:
         st.write(f"Error during API call: {e}")
         return f"Error during API call: {e}"
-
         
     # 1. FAISS 인덱스를 파일에서 로드
     index = load_faiss_index(index_path)
