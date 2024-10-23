@@ -17,9 +17,9 @@ st.set_page_config(page_title="🥙🌮🥯제주 맛집 찾아 삼만리🥯�
 
 load_dotenv()
 
-genai_key = os.getenv("GENAI_KEY")
-NAVER_CLIENT_ID = os.getenv("NAVER_CLIENT_ID")
-NAVER_CLIENT_SECRET = os.getenv("NAVER_CLIENT_SECRET")
+genai_key = os.getenv(GENAI_KEY)
+NAVER_CLIENT_ID = os.getenv(NAVER_CLIENT_ID)
+NAVER_CLIENT_SECRET = os.getenv(NAVER_CLIENT_SECRET)
 GEOCODING_API_URL = 'https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode'
 module_path = 'data/'
 
