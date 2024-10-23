@@ -172,7 +172,6 @@ def load_faiss_index(index_path):
         return index
     else:
         raise FileNotFoundError(f"{index_path} 파일이 존재하지 않습니다.")
-index = load_faiss_index(index_path)
 
 # 텍스트 임베딩 함수
 def embed_text(text):
