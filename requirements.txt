@@ -9,3 +9,4 @@ tqdm
 google-generativeai
 python-dotenv
 
+
