@@ -186,8 +186,8 @@ def embed_texts(texts, batch_size=8):
         inputs = tokenizer(batch_texts, return_tensors='pt', padding=True, truncation=True).to(device)
         with torch.no_grad():
             embeddings = embedding_model(**inputs).last_hidden_state.mean(dim=1)
-        all_embeddings.append(embeddings.cpu().numpy())
-    return np.vstack(embeddings)
+        all_embeddings.append(embeddings.cpu().numpy())  # 임베딩을 리스트에 추가
+    return np.vstack(all_embeddings)
 
 # 임베딩 로드
 embeddings = np.load(os.path.join(module_path, 'embeddings_array_file.npy'))
