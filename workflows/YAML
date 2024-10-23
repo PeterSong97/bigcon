@@ -1,0 +1,19 @@
+name: Clear Cache and Install Dependencies
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Cache cleanup
+      run: |
+        pip cache purge
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
