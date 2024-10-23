@@ -310,7 +310,7 @@ if prompt:
                 prompt, df, embeddings, model, embed_text,
                 visit_time=visit_time, visit_day=visit_day,
                 local_choice=local_choice, user_lat=latitude, user_lon=longitude,
-                max_distance_km=5, index_path='/content/drive/MyDrive/Test/faiss_index.index'
+                max_distance_km=5, index_path='data/faiss_index.index'
             )
             # 어시스턴트 응답 표시
             st.session_state.messages.append({"role": "assistant", "content": response})
