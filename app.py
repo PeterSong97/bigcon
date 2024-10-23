@@ -12,8 +12,6 @@ import math
 from datetime import time
 # import base64
 from datetime import datetime
-# import aiohttp
-# import asyncio
 
 # 가장 먼저 set_page_config 호출
 st.set_page_config(page_title="🥙🌮🥯제주 맛집 찾아 삼만리🥯🌮🥙")
