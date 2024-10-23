@@ -170,6 +170,8 @@ def load_faiss_index(index_path):
     if os.path.exists(index_path):
         index = faiss.read_index(index_path)
         return index
+    faiss_index_shape = index.d
+    st.write(f"FAISS 인덱스 차원: {faiss_index_shape}")
     else:
         raise FileNotFoundError(f"{index_path} 파일이 존재하지 않습니다.")
 index = load_faiss_index(index_path)
@@ -179,7 +181,8 @@ def embed_text(text):
     inputs = tokenizer(text, return_tensors='pt', padding=True, truncation=True).to(device)
     with torch.no_grad():
         embeddings = embedding_model(**inputs).last_hidden_state.mean(dim=1)
-    print(f"Embedding shape: {embeddings.shape}") 
+    embedding_shape = embeddings.shape
+    st.write(f"임베딩 차원: {embedding_shape}")
     return embeddings.squeeze().cpu().numpy()
 
 # 임베딩 로드
