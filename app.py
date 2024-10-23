@@ -233,7 +233,7 @@ def generate_response_with_faiss(question, df, embeddings, model, embed_text, vi
     
     # 3. FAISS 인덱스와 임베딩 벡터의 차원 확인
     faiss_index_dimension = index.d
-    embedding_dimension = query_embedding.shape[1]
+    embedding_dimension = query_embedding.shape[0]
     st.write(f"FAISS 인덱스 차원: {faiss_index_dimension}")
     st.write(f"임베딩 벡터 차원: {embedding_dimension}")
 
