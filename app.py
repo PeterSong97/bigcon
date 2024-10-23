@@ -221,36 +221,6 @@ def filter_restaurants(df, visit_time, visit_day, user_lat=None, user_lon=None, 
 # ====================================================== 필요함수 선언완료 =============================================================
 
 def generate_response_with_faiss(question, df, embeddings, model, embed_text, visit_time, visit_day, local_choice, user_lat=None, user_lon=None, max_distance_km=5, index_path=None, max_count=10, k=3, print_prompt=True):
-
-    # API 호출 전 로그
-    st.write(f"Sending prompt to Generative AI: {question}")  
-    
-    try:
-        # AI 모델을 통한 응답 생성
-        response = model.generate_content(question)
-        
-        # API 응답 코드를 확인 (필요한 경우 API 응답 객체에 따라 다를 수 있습니다)
-        if hasattr(response, 'status_code'):
-            st.write(f"API 응답 코드: {response.status_code}")
-        else:
-            st.write("API 응답 코드가 없습니다. 응답이 올바르지 않음")
-        
-        # 응답이 있는지 확인
-        if hasattr(response, 'candidates'):
-            candidate = response.candidates[0]
-            st.write(f"Candidate: {candidate}")  # Candidate 정보 출력
-            if candidate.content.parts:
-                full_response = candidate.content.parts[0].text
-                st.write(f"Full Response: {full_response}")  # 최종 응답 출력
-                return full_response
-            else:
-                return "조건에 맞는 식당이 없습니다!"
-        else:
-            return "응답을 생성하지 못했습니다."
-    
-    except Exception as e:
-        st.write(f"Error during API call: {e}")
-        return f"Error during API call: {e}"
         
     # 1. FAISS 인덱스를 파일에서 로드
     index = load_faiss_index(index_path)
