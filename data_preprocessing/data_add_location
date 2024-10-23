@@ -59,3 +59,5 @@ lat_lng_df = pd.DataFrame(results, columns=['ADDR', '위도', '경도'])
 
 # 4. 원래 데이터프레임과 API 결과를 주소(ADDR)로 병합 (위/경도 값을 채우기)
 df = pd.merge(df, lat_lng_df, on='ADDR', how='left')
+
+df.to_csv("jeju_data_location.csv", index=False)
