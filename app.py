@@ -221,15 +221,11 @@ def filter_restaurants(df, visit_time, visit_day, user_lat=None, user_lon=None, 
 # ====================================================== 필요함수 선언완료 =============================================================
 
 def generate_response_with_faiss(question, df, embeddings, model, embed_text, visit_time, visit_day, local_choice, user_lat=None, user_lon=None, max_distance_km=5, index_path=None, max_count=10, k=3, print_prompt=True):
-    additional_info = f"방문 예정 시간은 {visit_time}, 방문 예정 요일은 {visit_day}, 선호하는 맛집 유형은 {local_choice}입니다."
-    if user_lat and user_lon:
-        additional_info += f" 사용자의 위치는 위도 {user_lat}, 경도 {user_lon}입니다."
+    additional_info = f"방문 예정 시간은 {visit_time}, 방문 예정 요일은 {visit_day}입니다."
     
     # 질문에 추가 정보를 결합하여 임베딩에 사용
     full_question = f"{question} {additional_info}"
     
-    st.write(f"Final prompt for embedding: {full_question}")  # 최종 프롬프트 확인
-
     # AI 모델을 통한 임베딩 생성
     query_embedding = embed_text(full_question).reshape(1, -1)
 
