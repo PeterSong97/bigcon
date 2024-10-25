@@ -221,22 +221,34 @@ def filter_restaurants(df, visit_time, visit_day, user_lat=None, user_lon=None, 
 # ====================================================== 필요함수 선언완료 =============================================================
 
 def generate_response_with_faiss(question, df, embeddings, model, embed_text, visit_time, visit_day, local_choice, user_lat=None, user_lon=None, max_distance_km=5, index_path=None, max_count=10, k=3, print_prompt=True):
-        
-    # 1. FAISS 인덱스를 파일에서 로드
-    index = load_faiss_index(index_path)
+    # Streamlit UI에서 받은 정보를 기반으로 추가적인 맥락을 question에 추가
+    additional_info = f"방문 예정 시간은 {visit_time}, 방문 예정 요일은 {visit_day}, 선호하는 맛집 유형은 {local_choice}입니다."
+    if user_lat and user_lon:
+        additional_info += f" 사용자의 위치는 위도 {user_lat}, 경도 {user_lon}입니다."
+    
+    # 질문에 추가 정보를 결합하여 임베딩에 사용
+    full_question = f"{question} {additional_info}"
+    
+    st.write(f"Final prompt for embedding: {full_question}")  # 최종 프롬프트 확인
 
-    # 2. 검색 쿼리 임베딩 생성
-    query_embedding = embed_text(question).reshape(1, -1)
+    # AI 모델을 통한 임베딩 생성
+    query_embedding = embed_text(full_question).reshape(1, -1)
 
-    # 3. FAISS 인덱스에서 검색 수행 (3배수로 검색)
+    # FAISS 인덱스에서 검색 수행 (3배수로 검색)
     distances, indices = index.search(query_embedding, k * 3)
 
-    # 4. 유효한 인덱스만 필터링 (데이터프레임 범위를 넘는 인덱스를 제외)
+    # 검색 결과가 없을 경우 처리
+    if len(indices) == 0:
+        st.write("No results found in FAISS search.")
+        return "검색된 결과가 없습니다."
+    
+    # 유효한 인덱스만 필터링 (데이터프레임 범위를 넘는 인덱스를 제외)
     valid_indices = [i for i in indices[0] if i < len(df)]
     if not valid_indices:
+        st.write("No valid indices found after filtering.")
         return "검색된 결과가 없습니다."
 
-    # 5. 필터링을 진행 (시간, 요일, 거리, 현지인/관광객 옵션)
+    # 필터링을 진행 (시간, 요일, 거리, 현지인/관광객 옵션)
     filtered_df = df.iloc[valid_indices].copy().reset_index(drop=True)
     filtered_df = filter_restaurants(df=filtered_df, visit_time=visit_time, visit_day=visit_day, user_lat=user_lat, user_lon=user_lon, local_choice=local_choice, max_distance_km=max_distance_km)
 
@@ -246,12 +258,12 @@ def generate_response_with_faiss(question, df, embeddings, model, embed_text, vi
     if filtered_df.empty:
         return "질문과 일치하는 가게가 없습니다."
 
-    # 6. 참고할 정보와 프롬프트 구성
+    # 참고할 정보와 프롬프트 구성
     reference_info = ""
     for idx, row in filtered_df.iterrows():
         reference_info += f"{row['text']}\n"
 
-    # 7. 응답을 받아오기 위한 프롬프트 생성
+    # 응답을 받아오기 위한 프롬프트 생성
     prompt = f"""질문: {question}
             {local_choice}을 반영해줘.
 
@@ -264,7 +276,7 @@ def generate_response_with_faiss(question, df, embeddings, model, embed_text, vi
             3. 주소: 이 식당의 주소를 알려주세요.
             """
 
-    # 8. 응답 생성
+    # 응답 생성
     try:
         response = model.generate_content(prompt)
 
