@@ -221,7 +221,6 @@ def filter_restaurants(df, visit_time, visit_day, user_lat=None, user_lon=None, 
 # ====================================================== 필요함수 선언완료 =============================================================
 
 def generate_response_with_faiss(question, df, embeddings, model, embed_text, visit_time, visit_day, local_choice, user_lat=None, user_lon=None, max_distance_km=5, index_path=None, max_count=10, k=3, print_prompt=True):
-    # Streamlit UI에서 받은 정보를 기반으로 추가적인 맥락을 question에 추가
     additional_info = f"방문 예정 시간은 {visit_time}, 방문 예정 요일은 {visit_day}, 선호하는 맛집 유형은 {local_choice}입니다."
     if user_lat and user_lon:
         additional_info += f" 사용자의 위치는 위도 {user_lat}, 경도 {user_lon}입니다."
