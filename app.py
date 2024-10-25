@@ -224,7 +224,7 @@ def generate_response_with_faiss(question, df, embeddings, model, embed_text, vi
     additional_info = f" 방문 예정 시간은 {visit_time}, 방문 예정 요일은 {visit_day}입니다."
 
     if user_address:
-        additional_info = f" 위치는 {user_address}" 입니다.
+        additional_info = f" 위치는 {user_address} 입니다."
     
     # 질문에 추가 정보를 결합하여 임베딩에 사용
     full_question = f"{question} {additional_info}"
