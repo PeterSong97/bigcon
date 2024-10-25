@@ -249,7 +249,7 @@ def generate_response_with_faiss(question, df, embeddings, model, embed_text, vi
     # 6. 참고할 정보와 프롬프트 구성
     reference_info = ""
     for idx, row in filtered_df.iterrows():
-        reference_info += f"{row['text'], row['업종'}\n"
+        reference_info += f"{row['text'], row['업종']}\n"
 
     # 7. 응답을 받아오기 위한 프롬프트 생성
     prompt = f"""질문: {question}
