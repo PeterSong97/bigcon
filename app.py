@@ -226,17 +226,14 @@ def generate_response_with_faiss(question, df, embeddings, model, embed_text, vi
     # 질문에 추가 정보를 결합하여 임베딩에 사용
     full_question = f"{question} {additional_info}"
 
-    
-    
-    # AI 모델을 통한 임베딩, 인덱스
     index = load_faiss_index(index_path)
+
     query_embedding = embed_text(full_question).reshape(1, -1)
 
-    # FAISS 인덱스에서 검색 수행 (3배수로 검색)
     distances, indices = index.search(query_embedding, k * 3)
 
-    # 검색 결과가 없을 경우 처리
-    if len(indices) == 0:
+    valid_indices = [i for i in indices[0] if i < len(df)]
+    if not valid_indices:
         return "검색된 결과가 없습니다."
     
     # 유효한 인덱스만 필터링 (데이터프레임 범위를 넘는 인덱스를 제외)
