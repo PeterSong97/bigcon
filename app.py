@@ -253,10 +253,10 @@ def generate_response_with_faiss(question, df, embeddings, model, embed_text, vi
 
     # 7. 응답을 받아오기 위한 프롬프트 생성
     prompt = f"""질문: {question}
-            특히 {local_choice}을 선호합니다.
+            {local_choice}을 반영해줘.
 
             참고할 정보:
-            {reference_info} 와 특정 정보를 찾는건 데이터의 컬럼명칭을 참조해줘
+            {reference_info} 의 업종을 참고하면 좋을거같아.
 
             응답 형식:
             1. 추천 식당: 식당명
