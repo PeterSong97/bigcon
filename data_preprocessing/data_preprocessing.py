@@ -105,7 +105,7 @@ df[['식당이름', '영업요일']].head()
 df.info()
 
 def generate_text(row):
-    text = f"{row['식당이름']}의 업종은 \"{row['업종']}\"이고, 위치는 {row['주소']}입니다. "
+    text = f"{row['식당이름']}의 위치는 {row['주소']}입니다. "
 
     usage_mapping = {
         '1': '적은',
