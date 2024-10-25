@@ -257,7 +257,6 @@ def generate_response_with_faiss(question, df, embeddings, model, embed_text, vi
 
             참고할 정보:
             {reference_info} 와 특정 정보를 찾는건 데이터의 컬럼명칭을 참조해줘
-            업종은 filtered_df[['상호명','업종']]을 참고하면 됨
 
             응답 형식:
             1. 추천 식당: 식당명
