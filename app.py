@@ -109,6 +109,7 @@ st.sidebar.header("현재 위치에서 가까운 식당 추천")
 use_current_location = st.sidebar.radio("현재 위치를 기반으로 추천할까요?", ('Yes', 'No'))
 
 # 유저 위치 정보를 바탕으로 필터링
+user_address = False
 if use_current_location == 'Yes':
     st.sidebar.header("현재 위치 주소 입력")
     user_address = st.sidebar.text_input("주소를 입력하세요")
@@ -223,7 +224,7 @@ def filter_restaurants(df, visit_time, visit_day, user_lat=None, user_lon=None, 
 def generate_response_with_faiss(question, df, embeddings, model, embed_text, visit_time, visit_day, local_choice, user_lat=None, user_lon=None, max_distance_km=5, index_path=None, max_count=10, k=3, print_prompt=True):
     additional_info = f" 방문 예정 시간은 {visit_time}, 방문 예정 요일은 {visit_day}입니다."
 
-    if user_address and use_distance_filter:
+    if user_address:
         additional_info = f" 위치는 {user_address} 입니다."
     
     # 질문에 추가 정보를 결합하여 임베딩에 사용
