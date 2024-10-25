@@ -105,14 +105,32 @@ df[['식당이름', '영업요일']].head()
 df.info()
 
 def generate_text(row):
-    text = f"{row['식당이름']}의 업종은 {row['업종']}이고, 위치는 {row['주소']}입니다. "
+    text = f"{row['식당이름']}의 업종은 \"{row['업종']}\"이고, 위치는 {row['주소']}입니다. "
 
-    # 이용건수와 이용금액구간에서 숫자와 언더스코어 (_) 제거
-    usage_range = row['이용건수구간'].split('_')[-1]  # '_' 이후 값만 추출
-    amount_range = row['이용금액구간'].split('_')[-1]  # '_' 이후 값만 추출
+    usage_mapping = {
+        '1': '적은',
+        '2': '약간 적은',
+        '3': '보통인',
+        '4': '약간 많은',
+        '5': '많은',
+        '6': '매우 많은'
+    }
+    usage_range = row['이용건수구간'].split('_')[0]  
+    usage_text = usage_mapping.get(usage_range, '알 수 없음')
+    # 이용금액구간을 금액 구간으로 변환
+    amount_mapping = {
+        '1': '매우 저렴한',
+        '2': '저렴한',
+        '3': '약간 저렴한',
+        '4': '약간 비싼',
+        '5': '비싼',
+        '6': '매우 비쌈싼'
+    }
+    amount_range = row['이용금액구간'].split('_')[0]  # '_' 이전의 숫자를 추출
+    amount_text = amount_mapping.get(amount_range, '알 수 없음')  # 금액 구간에 맞는 텍스트 반환
 
-    text += f"이용 건수는 동일 업종 내 상위 {usage_range}이고, "
-    text += f"이용 금액 구간은 {amount_range}입니다. "
+    text += f"방문객의 숫자는 {usage_text}편 이고, "
+    text += f"가격대는 {amount_text}편 입니다. "
 
     # 시간대별 이용 비중에서 가장 높은 비중을 가진 시간대를 찾음
     time_columns = ['5시~11시이용비중', '12시~13시이용비중', '14시~17시이용비중', '18시~22시이용비중', '23시~4시이용비중']
@@ -130,6 +148,9 @@ def generate_text(row):
     text += f"현지인 이용 비중은 {row['현지인이용비중']:.2f}이고, 남성 회원 비중은 {row['남성회원비중']:.2f}, 여성 회원 비중은 {row['여성회원비중']:.2f}입니다."
 
     return text
+
+df['text'] = df.apply(generate_text, axis=1)
+df.head()
 
 df['text'] = df.apply(generate_text, axis=1)
 df.head()
