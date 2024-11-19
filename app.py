@@ -327,7 +327,6 @@ if prompt:
             st.session_state.messages.append({"role": "assistant", "content": response})
             st.write(response)
 
-
 # Clear chat history 버튼
 def clear_chat_history():
     st.session_state.messages = [{"role": "ヾ(•ω•`)o", "content": "어떤 식당을 찾고계세요?"}]
