@@ -18,8 +18,8 @@ nest_asyncio.apply()
 async def get_lat_lng(session, address):
     url = 'https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode'
     headers = {
-        "X-NCP-APIGW-API-KEY-ID": 'mxocs82ewu',  # 자신의 API KEY로 변경
-        "X-NCP-APIGW-API-KEY": 'vTK06BvgIO82LBN6lw2pNXDxfPLzaEuCh27A6lUX'
+        "X-NCP-APIGW-API-KEY-ID": 'API_ID',  # 자신의 API KEY로 변경
+        "X-NCP-APIGW-API-KEY": 'API_KEY'
     }
     params = {"query": address}
 
